@@ -18,7 +18,8 @@ Stream Log4j2 Logs to Apache Kafka
 ```  
     
 You can send post request to test:
-localhost:8080/kafka/sendRequest/transactionRequest
+
+######localhost:8080/kafka/sendRequest/transactionRequest
 ```
  {
     "transaction_id":"123335678",
