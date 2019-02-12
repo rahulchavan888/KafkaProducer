@@ -32,4 +32,44 @@ You can send post request to test:
      "remark":"trasfer"
  }
 ```
-    
+  
+  # Log4j2 Configuration
+  
+  ```
+ <?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info"
+	name="spring-boot-log-to-kafka-example" packages="com.kafkaproducer">
+	<Appenders>
+		<Kafka name="kafkaAppender" topic="test">
+			<JSONLayout />
+			<Property name="bootstrap.servers">localhost:9092</Property>
+			<RegexFilter regex=".*kafakatestlog.*" onMatch="ACCEPT"
+				onMismatch="DENY" />
+		</Kafka>
+
+		<!--stdout/stderr included for testing Oozie log4j edits -->
+		<Console name="stdout" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %-5p [%-7t] %F:%L - %m%n" />
+		</Console>
+		<Console name="stderr" target="SYSTEM_ERR">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %-5p [%-7t] %F:%L - %m%n" />
+			<Filters>
+				<ThresholdFilter level="WARN" onMatch="ACCEPT" />
+			</Filters>
+		</Console>
+
+	</Appenders>
+	<Loggers>
+		<Root level="INFO">
+			<AppenderRef ref="kafkaAppender" />
+
+			<!--stdout/stderr included for testing Oozie log4j edits -->
+			<AppenderRef ref="stdout" />
+			<AppenderRef ref="stderr" />
+		</Root>
+		<Logger name="org.apache.kafka" level="warn" />
+	</Loggers>
+</Configuration>
+  ```
