@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info"
-	name="spring-boot-log-to-kafka-example" packages="com.kafkaproducer">
+	name="spring-boot-log-to-kafka-example"
+	packages="com.kafkaproducer.filter">
+
 	<Appenders>
 		<Kafka name="kafkaAppender" topic="test">
 			<JSONLayout />
 			<Property name="bootstrap.servers">localhost:9092</Property>
-			<RegexFilter regex=".*kafakatestlog.*" onMatch="ACCEPT"
-				onMismatch="DENY" />
+			<Filter>
+			<MyCustomRegxFilter regex=".*kafakatestlog.*" onMatch="ACCEPT"
+				onMismatch="DENY"/>
+			</Filter>
 		</Kafka>
 
 		<!--stdout/stderr included for testing Oozie log4j edits -->
